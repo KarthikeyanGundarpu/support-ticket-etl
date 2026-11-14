@@ -1,0 +1,19 @@
+# Virtual Environments
+.venv/
+venv/
+env/
+
+# Python Cache & Test Artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Generated Pipeline Data & Outputs
+data/*.log
+data/*.db
+output/*.csv
+output/*.json
+
+# IDE Settings
+.idea/
+.vscode/
