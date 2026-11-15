@@ -30,3 +30,8 @@ jobs:
         env:
           PYTHONPATH: src
         run: python -m pytest -v
+"@ | Set-Content -Path .github/workflows/tests.yml -Encoding UTF8
+
+git add pyproject.toml .github/workflows/tests.yml
+git commit -m "Add pandas dependency and update CI workflow"
+git push
