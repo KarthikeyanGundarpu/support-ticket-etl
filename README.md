@@ -1,20 +1,33 @@
-Enterprise Support Ticket ETL & Analytics Engine
-A modular, object-oriented Python ETL pipeline and CLI tool that ingests, validates, deduplicates, and analyzes customer support tickets across CSV, JSON, XML, and unstructured server logs into a normalized SQLite database.
+# Support Ticket ETL & CLI Analytics Engine
 
-Key Engineering Highlights
-Object-Oriented Domain Modeling (models.py): Encapsulates validation rules via @property setters, compiled regex patterns, computed SLA breach flags, and custom __eq__/__hash__ contracts for O(1) deduplication.
-Memory-Efficient Streaming Parsers (parsers.py): Uses an abstract base class (BaseParser) and generator-based yield pipelines (csv.DictReader, ET.iterparse with elem.clear(), and named regex groups) to process large files in O(1) memory.
-Transactional SQLite Persistence (database.py): Implements context-managed transactions (PRAGMA foreign_keys = ON), parameterized ON CONFLICT upserts, full CRUD operations, and LEFT JOIN + COALESCE agent performance reporting.
-Decorators & CLI (decorators.py, cli.py): Reusable @audit_execution timing/error-logging decorator and an argparse terminal interface.
-Project Structure
+![Run Pytest Suite](https://github.com/KarthikeyanGundarpu/support-ticket-etl/actions/workflows/tests.yml/badge.svg)
+![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)
+![SQLite](https://img.shields.io/badge/Database-SQLite-003B57.svg)
+
+A modular Python ETL pipeline and command-line analytics engine built to ingest, clean, normalize, and analyze multi-format support logs (**CSV, JSON, XML, and unstructured Regex text logs**) into a relational **SQLite** database[cite: 1].
+
+---
+
+## Key Features
+- **Multi-Format Extraction:** Dedicated parsers for structured (`CSV`, `JSON`, `XML`) and unstructured raw log files using compiled Regular Expressions (`re`)[cite: 1].
+- **Schema Normalization & Data Cleaning:** Standardizes timestamps, validates ticket priority/severity levels, handles malformed or missing records, and deduplicates entries prior to storage[cite: 9].
+- **SQLite Storage Layer:** Idempotent database loading with structured tables, primary-key constraints, and indexed queries for fast aggregation[cite: 1].
+- **CLI Analytics Interface (`argparse`):** Generate synthetic multi-format logs, run ingestion pipelines, and query ticket metrics directly from the terminal.
+- **Automated Testing (`pytest` + GitHub Actions):** Unit and integration test suite running automatically via GitHub Actions on every push to `main`[cite: 1, 10].
+
+---
+
+## Project Architecture
+
+```text
 support-ticket-etl/
-├── ticket_engine/
-│   ├── __init__.py
-│   ├── models.py       # Ticket entity, SLA rules, validation & hash contracts
-│   ├── parsers.py      # Polymorphic CSV, JSON, XML & Regex Log streaming parsers
-│   ├── database.py     # SQLite schema, CRUD & LEFT JOIN analytics
-│   ├── decorators.py   # Execution audit & timing decorator
-│   └── cli.py          # Command-line interface
-├── tests/
-│   └── test_engine.py  # Pytest unit & integration test suite
-└── README.mdg
+├── .github/
+│   └── workflows/
+│       └── tests.yml        # GitHub Actions CI workflow running pytest
+├── src/                     # Core ETL modules (parsers, transformations, SQLite loader, analytics)
+├── tests/                   # Automated Pytest unit & integration test suite
+├── generate_logs.py         # Synthetic multi-format log generator (CSV, JSON, XML, .log)
+├── main.py                  # CLI entrypoint for ETL ingestion and analytics queries
+├── pyproject.toml           # Project metadata and pytest configuration
+├── .gitignore
+└── README.md
