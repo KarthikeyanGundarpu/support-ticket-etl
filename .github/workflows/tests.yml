@@ -1,3 +1,4 @@
+@"
 name: Run Pytest Suite
 
 on:
@@ -25,9 +26,14 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f pyproject.toml ]; then pip install -e .; fi
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install pytest
+          pip install pandas pytest
 
       - name: Run Pytest
         env:
           PYTHONPATH: src
         run: python -m pytest -v
+"@ | Set-Content -Path .github/workflows/tests.yml -Encoding UTF8
+
+git add pyproject.toml .github/workflows/tests.yml
+git commit -m "Add pandas dependency and update CI workflow"
+git push
