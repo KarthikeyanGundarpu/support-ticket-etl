@@ -1,6 +1,6 @@
 ﻿# Support Ticket ETL & CLI Analytics Engine
 
-![Run Pytest Suite](https://github.com/KarthikeyanGundarpu/support-ticket-etl/actions/workflows/tests.yml/badge.svg)
+![Run Pytest Suite](https://github.com/KarthikeyanGundarpu/support-ticket-etl/actions/workflows/tests.yml/badge.svg?branch=main)
 ![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)
 ![SQLite](https://img.shields.io/badge/Database-SQLite-003B57.svg)
 
@@ -31,4 +31,5 @@ support-ticket-etl/
 â”œâ”€â”€ pyproject.toml           # Project metadata and pytest configuration
 â”œâ”€â”€ .gitignore
 â””â”€â”€ README.md
+
 
